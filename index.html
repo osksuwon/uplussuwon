@@ -1,0 +1,317 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Smartphone, 
+  Battery, 
+  Camera, 
+  Cpu, 
+  ShieldCheck, 
+  ChevronRight, 
+  Star, 
+  Clock, 
+  CheckCircle2,
+  Menu,
+  X
+} from 'lucide-react';
+
+const App = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    model: 'Galaxy S24 Ultra',
+    plan: '무제한 5G'
+  });
+
+  // 스크롤 시 헤더 스타일 변경
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`${formData.name}님, 상담 예약이 접수되었습니다. 곧 연락드리겠습니다!`);
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  return (
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100">
+      {/* Navigation */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Smartphone className="text-blue-600 w-8 h-8" />
+            <span className="text-2xl font-bold tracking-tight text-slate-800">MOBILE PLUS</span>
+          </div>
+          
+          <div className="hidden md:flex gap-8 items-center font-medium">
+            <a href="#features" className="hover:text-blue-600 transition-colors">주요기능</a>
+            <a href="#pricing" className="hover:text-blue-600 transition-colors">가격안내</a>
+            <a href="#reviews" className="hover:text-blue-600 transition-colors">구매후기</a>
+            <a href="#apply" className="bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md">상담신청</a>
+          </div>
+
+          <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center gap-8 text-2xl font-bold md:hidden">
+          <a href="#features" onClick={() => setMobileMenuOpen(false)}>주요기능</a>
+          <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>가격안내</a>
+          <a href="#reviews" onClick={() => setMobileMenuOpen(false)}>구매후기</a>
+          <a href="#apply" onClick={() => setMobileMenuOpen(false)} className="text-blue-600">상담신청</a>
+        </div>
+      )}
+
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        <div className="absolute top-0 right-0 -z-10 w-1/2 h-full bg-blue-50/50 rounded-bl-[100px] hidden lg:block"></div>
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-8 animate-in fade-in slide-in-from-left duration-1000">
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold">
+              <Star size={16} fill="currentColor" />
+              <span>오늘만 최대 50% 역대급 할인</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1]">
+              상상 그 이상의 <br />
+              <span className="text-blue-600">새로운 모바일</span>
+            </h1>
+            <p className="text-xl text-slate-600 leading-relaxed max-w-lg">
+              더 빠르고, 더 똑똑해진 최신 스마트폰을 가장 합리적인 가격에 만나보세요. 오늘 신청하시면 특별 사은품 3종을 모두 드립니다.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a href="#apply" className="bg-slate-900 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all text-center">
+                최저가 확인하기
+              </a>
+              <div className="flex items-center gap-3 px-4 py-2 border border-slate-200 rounded-xl">
+                <Clock className="text-red-500" />
+                <span className="font-semibold">이벤트 종료까지 08:42:11</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="relative animate-in fade-in zoom-in duration-1000 delay-200">
+            <div className="absolute -inset-4 bg-blue-200/30 blur-3xl rounded-full"></div>
+            <div className="relative bg-gradient-to-tr from-slate-200 to-white p-4 rounded-[3rem] shadow-2xl border border-white">
+              {/* Phone Mockup Placeholder */}
+              <div className="bg-slate-900 aspect-[9/19] rounded-[2.5rem] flex items-center justify-center overflow-hidden">
+                <div className="text-white text-center p-8">
+                  <Smartphone size={80} className="mx-auto mb-4 text-blue-400 opacity-50" />
+                  <p className="text-sm opacity-60">최신 모델 고해상도 이미지</p>
+                </div>
+              </div>
+            </div>
+            {/* Float Cards */}
+            <div className="absolute top-10 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 hidden sm:block">
+              <div className="flex items-center gap-3">
+                <div className="bg-green-100 p-2 rounded-full"><CheckCircle2 className="text-green-600" size={20}/></div>
+                <div>
+                  <p className="text-xs text-slate-500">누적 판매량</p>
+                  <p className="font-bold">12,400+ 건</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="bg-slate-50 py-12">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { label: '만족도', value: '99%' },
+            { label: '당일배송', value: '100%' },
+            { label: '제휴카드 할인', value: '최대 48만원' },
+            { label: '무이자 할부', value: '최대 24개월' },
+          ].map((stat, i) => (
+            <div key={i} className="text-center">
+              <p className="text-slate-500 text-sm mb-1">{stat.label}</p>
+              <p className="text-2xl font-bold text-slate-800">{stat.value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-24">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 italic">Unrivaled Power</h2>
+          <p className="text-slate-600">당신의 일상을 바꿀 압도적인 기술력</p>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+          {[
+            { 
+              icon: <Cpu className="w-10 h-10 text-blue-600" />, 
+              title: "초고속 프로세서", 
+              desc: "전 세대 대비 40% 향상된 성능으로 끊김 없는 멀티태스킹을 경험하세요." 
+            },
+            { 
+              icon: <Camera className="w-10 h-10 text-blue-600" />, 
+              title: "2억 화소 카메라", 
+              desc: "밤에도 낮처럼 밝게, 전문가급 사진과 영상을 손쉽게 촬영할 수 있습니다." 
+            },
+            { 
+              icon: <Battery className="w-10 h-10 text-blue-600" />, 
+              title: "올데이 배터리", 
+              desc: "한 번 충전으로 이틀까지 사용 가능한 효율적인 전력 관리 시스템." 
+            }
+          ].map((feature, i) => (
+            <div key={i} className="p-8 rounded-3xl border border-slate-100 bg-white hover:shadow-xl transition-all group">
+              <div className="mb-6 bg-blue-50 w-16 h-16 flex items-center justify-center rounded-2xl group-hover:scale-110 transition-transform">
+                {feature.icon}
+              </div>
+              <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+              <p className="text-slate-600 leading-relaxed">{feature.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Pricing / CTA Section */}
+      <section id="pricing" className="py-24 bg-slate-900 text-white overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10">
+          <div className="absolute top-20 left-10 w-64 h-64 bg-blue-500 rounded-full blur-[100px]"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500 rounded-full blur-[120px]"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight">
+                지금 구매하면 <br />
+                <span className="text-blue-400">월 1만원대</span>로 <br />
+                최신 폰을 가집니다.
+              </h2>
+              <ul className="space-y-4 mb-10">
+                {[
+                  '선택약정 25% 기본 할인',
+                  '공시지원금 최대 지원',
+                  '기존 중고폰 최고가 보상',
+                  '인터넷 결합 시 추가 할인'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <CheckCircle2 className="text-blue-400" size={24} />
+                    <span className="text-lg opacity-90">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div id="apply" className="bg-white text-slate-900 p-8 md:p-10 rounded-[2.5rem] shadow-2xl">
+              <h3 className="text-2xl font-bold mb-2">간편 가격 상담 신청</h3>
+              <p className="text-slate-500 mb-8">정보를 입력하시면 전문 상담원이 연락드립니다.</p>
+              
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-2 ml-1">이름</label>
+                  <input 
+                    type="text" 
+                    name="name"
+                    required
+                    placeholder="홍길동"
+                    className="w-full px-4 py-4 bg-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2 ml-1">연락처</label>
+                  <input 
+                    type="tel" 
+                    name="phone"
+                    required
+                    placeholder="010-1234-5678"
+                    className="w-full px-4 py-4 bg-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all"
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold mb-2 ml-1">희망 모델</label>
+                    <select 
+                      name="model"
+                      className="w-full px-4 py-4 bg-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all appearance-none"
+                      value={formData.model}
+                      onChange={handleChange}
+                    >
+                      <option>Galaxy S24 Ultra</option>
+                      <option>iPhone 15 Pro</option>
+                      <option>Galaxy Z Flip 5</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold mb-2 ml-1">희망 요금제</label>
+                    <select 
+                      name="plan"
+                      className="w-full px-4 py-4 bg-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all appearance-none"
+                      value={formData.plan}
+                      onChange={handleChange}
+                    >
+                      <option>무제한 5G</option>
+                      <option>가성비 5G</option>
+                      <option>시니어/청소년</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="pt-4 text-xs text-slate-400 text-center mb-4">
+                  개인정보 수집 및 마케팅 활용에 동의하게 됩니다.
+                </div>
+                <button type="submit" className="w-full bg-blue-600 text-white py-5 rounded-xl font-bold text-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2">
+                  최저가 상담 예약하기 <ChevronRight size={20} />
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Elements */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6 flex flex-wrap justify-center gap-12 grayscale opacity-50">
+          <div className="font-bold text-2xl tracking-tighter">SAMSUNG</div>
+          <div className="font-bold text-2xl tracking-tighter">Apple</div>
+          <div className="font-bold text-2xl tracking-tighter">SK telecom</div>
+          <div className="font-bold text-2xl tracking-tighter">KT</div>
+          <div className="font-bold text-2xl tracking-tighter">LG U+</div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-50 py-12 border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 text-center md:text-left">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
+            <div className="flex items-center gap-2">
+              <Smartphone className="text-blue-600 w-6 h-6" />
+              <span className="text-xl font-bold tracking-tight text-slate-800">MOBILE PLUS</span>
+            </div>
+            <div className="flex gap-6 text-sm text-slate-500 font-medium">
+              <a href="#">이용약관</a>
+              <a href="#">개인정보처리방침</a>
+              <a href="#">광고문의</a>
+            </div>
+          </div>
+          <div className="text-xs text-slate-400 leading-loose">
+            <p>상호명: (주)모바일플러스 | 대표자: 홍길동 | 사업자등록번호: 000-00-00000 | 통신판매업신고: 제2024-서울강남-0000호</p>
+            <p>주소: 서울특별시 강남구 테헤란로 123 모바일빌딩 5층 | 고객센터: 1588-0000 (평일 09:00~18:00)</p>
+            <p className="mt-4">© 2024 Mobile Plus. All rights reserved. 본 페이지는 예시용 랜딩페이지입니다.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
